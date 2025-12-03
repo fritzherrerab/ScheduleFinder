@@ -1,0 +1,88 @@
+{
+  "Employees": [
+    { "EmployeeId": "G101", "Name": "Ana Ríos" },
+    { "EmployeeId": "G102", "Name": "Bruno López" },
+    { "EmployeeId": "G103", "Name": "Carla Soto" }
+  ],
+  "Shifts": [
+    { "ShiftId": "R_DIUR", "Name": "Cobertura Diurna (07-15)", "DefaultStartTime": "07:00:00", "DefaultEndTime": "15:00:00" },
+    { "ShiftId": "C_TARDE", "Name": "Cobertura Tarde (14-22)", "DefaultStartTime": "14:00:00", "DefaultEndTime": "22:00:00" },
+    { "ShiftId": "V_NOCT", "Name": "Cobertura Nocturna (21-06)", "DefaultStartTime": "21:00:00", "DefaultEndTime": "06:00:00" },
+    { "ShiftId": "E_CORTO", "Name": "Emergencia Corta (08-10)", "DefaultStartTime": "08:00:00", "DefaultEndTime": "10:00:00" }
+  ],
+  "Assignments": [
+    
+    { 
+      "AssignmentId": "A10", 
+      "EmployeeId": "G101", 
+      "ShiftId": "R_DIUR", 
+      "Date": "2025-12-10T00:00:00" 
+    },
+    { 
+      "AssignmentId": "A11", 
+      "EmployeeId": "G101", 
+      "ShiftId": "C_TARDE", 
+      "Date": "2025-12-10T00:00:00" 
+    },
+    
+    
+    { 
+      "AssignmentId": "A20", 
+      "EmployeeId": "G102", 
+      "ShiftId": "R_DIUR", 
+      "Date": "2025-12-11T00:00:00" 
+    },
+    { 
+      "AssignmentId": "A21", 
+      "EmployeeId": "G102", 
+      "ShiftId": "E_CORTO", 
+      "Date": "2025-12-11T00:00:00" 
+    },
+    
+    
+    { 
+      "AssignmentId": "A30", 
+      "EmployeeId": "G103", 
+      "ShiftId": "V_NOCT", 
+      "Date": "2025-12-11T00:00:00" 
+    },
+    { 
+      "AssignmentId": "A31", 
+      "EmployeeId": "G103", 
+      "ShiftId": "V_NOCT", 
+      "Date": "2025-12-11T00:00:00",
+      "CustomStartTime": "04:00:00",
+      "CustomEndTime": "08:00:00" 
+    },
+    
+    
+    { 
+      "AssignmentId": "A40", 
+      "EmployeeId": "G102", 
+      "ShiftId": "R_DIUR", 
+      "Date": "2025-12-12T00:00:00" 
+    },
+    { 
+      "AssignmentId": "A41", 
+      "EmployeeId": "G103", 
+      "ShiftId": "C_TARDE", 
+      "Date": "2025-12-12T00:00:00" 
+    },
+
+    
+    { 
+      "AssignmentId": "A50", 
+      "EmployeeId": "G101", 
+      "ShiftId": "R_DIUR", 
+      "Date": "2025-12-13T00:00:00",
+      "CustomStartTime": "07:00:00",
+      "CustomEndTime": "14:00:00"
+    },
+    { 
+      "AssignmentId": "A51", 
+      "EmployeeId": "G101", 
+      "ShiftId": "C_TARDE", 
+      "Date": "2025-12-13T00:00:00" 
+    }
+  ]
+}

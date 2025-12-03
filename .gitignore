@@ -1,0 +1,20 @@
+# Archivos de .NET Core / C#
+
+## Directorios y archivos generados automáticamente
+[Bb]in/
+[Oo]bj/
+
+## Archivos de paquetes de Visual Studio (si usas VS en lugar de VS Code)
+*.nupkg
+*.suo
+*.user
+*.useros
+*.vspscc
+*.vssscc
+*.bak
+*.resharper
+
+## Archivos de NuGet
+.nuget/packages
+.vs/
+.vs/VS/
