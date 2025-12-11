@@ -90,7 +90,7 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"\n Ocurrió un error: {ex.Message}");
-    // Console.WriteLine(ex.StackTrace); // Útil para depuración
+    // Console.WriteLine(ex.StackTrace); 
 }
 
 
@@ -111,34 +111,30 @@ public static class OverlapFinder
         {
             var employeeSchedules = group.ToList();
 
-            // 3. COMPARAR: Bucle anidado para comparar todos los pares (O(N^2))
-            for (int i = 0; i < employeeSchedules.Count; i++)
+            // 3. OPTIMIZACIÓN: Ordenar por hora de inicio para permitir el recorrido simple.
+            var sortedSchedules = employeeSchedules.OrderBy(s => s.StartDate).ToList();
+
+            // 4. BUCLE SIMPLE: Recorrer y comparar cada turno con su predecesor inmediato.
+            for (int i = 1; i < sortedSchedules.Count; i++)
             {
-                var scheduleA = employeeSchedules[i];
+                var scheduleB = sortedSchedules[i];     // El turno actual
+                var scheduleA = sortedSchedules[i - 1]; // El turno anterior
 
-                for (int j = i + 1; j < employeeSchedules.Count; j++)
+                // 5. USAR MÉTODO ENCAPSULADO (DoesOverlap)
+                if (scheduleA.DoesOverlap(scheduleB)) 
                 {
-                    var scheduleB = employeeSchedules[j];
+                    // Calcular el periodo exacto del solape (la complejidad matemática)
+                    var overlapStart = Max(scheduleA.StartDate, scheduleB.StartDate);
+                    var overlapEnd = Min(scheduleA.EndDate, scheduleB.EndDate);
 
-                    // Condición de solape: A comienza antes de que B termine Y B comienza antes de que A termine.
-                    bool isOverlapping = scheduleA.StartDate < scheduleB.EndDate && 
-                                         scheduleB.StartDate < scheduleA.EndDate;
-
-                    if (isOverlapping)
+                    overlaps.Add(new OverlapResult
                     {
-                        // Calcular el periodo exacto del solape
-                        var overlapStart = Max(scheduleA.StartDate, scheduleB.StartDate);
-                        var overlapEnd = Min(scheduleA.EndDate, scheduleB.EndDate);
-
-                        overlaps.Add(new OverlapResult
-                        {
-                            EmployeeId = group.Key,
-                            ScheduleA = scheduleA,
-                            ScheduleB = scheduleB,
-                            OverlapStart = overlapStart,
-                            OverlapEnd = overlapEnd
-                        });
-                    }
+                        EmployeeId = group.Key,
+                        ScheduleA = scheduleA,
+                        ScheduleB = scheduleB,
+                        OverlapStart = overlapStart,
+                        OverlapEnd = overlapEnd
+                    });
                 }
             }
         }
