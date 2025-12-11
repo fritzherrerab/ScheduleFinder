@@ -14,7 +14,7 @@ namespace ScheduleFinder.Services
     {
         public static List<Schedule>? LoadAndTransformData(string jsonPath)
         {
-            // 1. Validar y Cargar el JSON
+            // ... (Lógica de validación y carga JSON) ...
             if (!File.Exists(jsonPath))
             {
                 Console.WriteLine($"ERROR: Archivo 'data.json' no encontrado en: {jsonPath}");
@@ -23,6 +23,7 @@ namespace ScheduleFinder.Services
 
             try
             {
+                // ... (Lógica de deserialización JSON) ...
                 string jsonString = File.ReadAllText(jsonPath);
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var data = JsonSerializer.Deserialize<DataContainer>(jsonString, options);
@@ -35,30 +36,17 @@ namespace ScheduleFinder.Services
                 
                 Console.WriteLine($"Procesando {data.Assignments.Count} asignaciones...");
 
-                // 2. Transformar Asignaciones en Schedules (Lógica de Negocio)
+                // -------------------------------------------------------------------
+                // 2. Transformar Asignaciones en Schedules (USANDO EL FACTORY METHOD)
+                // -------------------------------------------------------------------
                 var allSchedules = data.Assignments
                     .Select(assignment =>
                     {
                         var shiftBase = data.Shifts.FirstOrDefault(s => s.ShiftId == assignment.ShiftId);
                         if (shiftBase == null) return null;
 
-                        var start = assignment.CustomStartTime ?? shiftBase.DefaultStartTime;
-                        var end = assignment.CustomEndTime ?? shiftBase.DefaultEndTime;
-                        
-                        var startDate = assignment.Date.Date.Add(start);
-                        var endDate = assignment.Date.Date.Add(end);
-                        
-                        if (endDate < startDate)
-                        {
-                            endDate = endDate.AddDays(1);
-                        }
-
-                        return new Schedule
-                        {
-                            EmployeeId = assignment.EmployeeId,
-                            StartDate = startDate,
-                            EndDate = endDate
-                        };
+                        // <--- DELEGACIÓN DE RESPONSABILIDAD --->
+                        return Schedule.CreateFromAssignment(assignment, shiftBase);
                     })
                     .Where(s => s != null)
                     .Select(s => s!)
@@ -67,11 +55,7 @@ namespace ScheduleFinder.Services
                 Console.WriteLine($"Generados {allSchedules.Count} Schedules para análisis.");
                 return allSchedules;
             }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"ERROR de deserialización JSON: {ex.Message}");
-                return null;
-            }
+            // ... (Manejo de excepciones) ...
             catch (Exception ex)
             {
                 Console.WriteLine($"ERROR al procesar datos: {ex.Message}");
